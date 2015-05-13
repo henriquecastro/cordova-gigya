@@ -1,4 +1,4 @@
-Cordova Gigya
+Changes Cordova Gigya
 ================
 
 [Cordova](http://cordova.apache.org/) plugin that handles Gigya integration for mobile (iOS and Android) apps.
