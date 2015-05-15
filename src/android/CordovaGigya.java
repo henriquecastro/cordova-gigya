@@ -1,4 +1,4 @@
-package us.platan.gigya;
+package us.cordova.gigya;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;

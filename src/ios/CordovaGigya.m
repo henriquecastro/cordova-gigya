@@ -16,7 +16,7 @@
 
 - (void)pluginInitialize;
 {
-    NSLog(@"Cordova Gigya Plugin Initialize");
+    NSLog(@"Cordova Gigya Plugin Initialize from my custom fork edited");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifiedOpenUrl:) name:@"CDVPluginHandleOpenURLNotification" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:)
         name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -106,6 +106,7 @@
 
 
             if (!error) {
+                NSLog(@"Email = %@", user[@"email"]);
                 NSString* userString = [user JSONString];
                 NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary* userDictionary = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
@@ -181,6 +182,54 @@
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
+}
+
+- (void)addConnectionToProvider:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"AddConnectionToProvider ");
+    
+    NSString* provider = [command.arguments objectAtIndex:0];
+
+    NSDictionary* loginParams = nil;
+
+    if([command.arguments objectAtIndex:1] != [NSNull null]){
+        loginParams = [command.arguments objectAtIndex:1];
+    }
+
+    [Gigya addConnectionToProvider:provider
+                parameters:loginParams
+                      over:super.viewController
+         completionHandler:^(GSUser *user, NSError *error) {
+            
+            CDVPluginResult* pluginResult = nil;
+
+
+            if (!error) {
+                NSLog(@"AddConnectionToProvider success");
+                NSString* userString = [user JSONString];
+                NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary* userDictionary = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionary];
+            }
+            else {
+                // Handle error
+                NSLog(@"AddConnectionToProvider error: %@", error);
+
+                NSDictionary* userInfo = [error userInfo];
+
+                NSDictionary* data = @{
+                   @"state": [NSString stringWithString:userInfo[@"state"]],
+                   @"regToken": [NSString stringWithString:userInfo[@"regToken"]],
+                   @"errorCode": [NSNumber numberWithInteger:error.code],
+                   @"errorMessage": [NSString stringWithString:userInfo[@"NSLocalizedDescription"]]
+                };
+
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:data];
+            }
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
+         }];
+
 }
 
 - (void)logout:(CDVInvokedUrlCommand*)command
