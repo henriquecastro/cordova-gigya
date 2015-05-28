@@ -5,6 +5,7 @@ var argscheck = require('cordova/argscheck'),
 module.exports = {
 
 	initialize: function(api_key) {
+		console.log('initialize');
 		exec(null,
 			null,
 			"CordovaGigya",
@@ -12,6 +13,7 @@ module.exports = {
 	},
 
 	showLoginUI: function(providers, params, success, failure) {
+		console.log('showLoginUI');
 		exec(success || function() {},
 			failure || function() {},
 			"CordovaGigya",
@@ -19,6 +21,7 @@ module.exports = {
 	},
 
 	login: function(provider, params, success, failure) {
+		console.log('login');
 		exec(success || function() {},
 			failure || function() {},
 			"CordovaGigya",
@@ -26,6 +29,7 @@ module.exports = {
 	},
 
 	addConnectionToProvider: function(provider, params, success, failure) {
+		console.log('addConnectionToProvider');
 		exec(success || function() {},
 			failure || function() {},
 			"CordovaGigya",
@@ -33,6 +37,7 @@ module.exports = {
 	},
 
 	getSession: function(success, failure) {
+		console.log('getSession');
 		exec(success || function() {},
 			failure || function() {},
 			"CordovaGigya",
@@ -41,6 +46,7 @@ module.exports = {
 
 
 	sendRequest: function(method, params, success, failure) {
+		console.log('sendRequest');
 		exec(success || function() {},
 			failure || function() {},
 			"CordovaGigya",
@@ -49,6 +55,7 @@ module.exports = {
 
 
 	logout: function(success, failure) {
+		console.log('logout');
 		exec(success || function() {},
 			failure || function() {},
 			"CordovaGigya",
