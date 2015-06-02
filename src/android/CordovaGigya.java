@@ -21,6 +21,7 @@ public class CordovaGigya extends CordovaPlugin {
     private static final String TAG = "CordovaGigya";
 
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        
         Log.d(TAG, action);
 
         if ("initialize".equals(action)) {
@@ -140,6 +141,46 @@ public class CordovaGigya extends CordovaPlugin {
             callbackContext.success(session.toString());
 
             return true;
+        } else if("loginUserWithPassword".equals(action)) {
+            JSONObject paramsJSON = args.optJSONObject(0);
+
+            GSObject params = null;
+
+            if(paramsJSON != null){
+                try {
+                    params = new GSObject(paramsJSON.toString());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+            GSAPI.getInstance().sendRequest("accounts.login", params, new GSResponseListener() {
+                @Override
+                public void onGSResponse(String method, GSResponse response, Object context) {
+                    JSONObject data = getData(response);
+                    
+                    if (response.getErrorCode() == 0) {
+                        try {
+                            JSONObject sessionInfo = data.getJSONObject("sessionInfo");
+                            String sessionToken = sessionInfo.getString("sessionToken");
+                            String sessionSecret = sessionInfo.getString("sessionSecret");                        
+                            GSSession session = new GSSession(sessionToken, sessionSecret);
+                            GSAPI.getInstance().setSession(session);
+
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        callbackContext.success(data);
+                    } else {
+                        callbackContext.error(data);
+                    }
+                }
+            }, null);
+
+            return true;
+
         }
         else if ("sendRequest".equals(action)){
 
