@@ -232,6 +232,49 @@
 
 }
 
+- (void)loginUserWithPassword:(CDVInvokedUrlCommand*)command
+{
+    if (![[Gigya session] isValid]) {
+
+        GSRequest* request;
+
+        if([command.arguments objectAtIndex:0] != [NSNull null]){
+            NSDictionary* requestParams = [command.arguments objectAtIndex:0];
+            request = [GSRequest requestForMethod:@"accounts.login" parameters:requestParams];
+        }
+        else{
+            request = [GSRequest requestForMethod:@"accounts.login"];
+        }
+
+        [request sendWithResponseHandler:^(GSResponse *response, NSError *error) {
+            CDVPluginResult* pluginResult = nil;
+            
+            NSString* responseString = [response JSONString];
+            NSData* responseData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+
+            if (!error) {
+                NSString* sessionToken = response[@"sessionInfo"][@"sessionToken"];
+                NSString* sessionSecret = response[@"sessionInfo"][@"sessionSecret"];
+                GSSession* gigyaSession = [[GSSession alloc] initWithSessionToken:sessionToken secret:sessionSecret];
+                [Gigya setSession:gigyaSession];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:responseDictionary];
+            }
+            else {
+                // Handle error
+                NSLog(@"Request error: %@", error);
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:responseDictionary];
+            }
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }
+    else {
+        NSLog(@"Already logged in. Logout first.");
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Already logged in. Logout first."];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+}
+
 - (void)logout:(CDVInvokedUrlCommand*)command
 {
     [Gigya logoutWithCompletionHandler:^(GSResponse *response, NSError *error) {
