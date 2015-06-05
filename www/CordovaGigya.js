@@ -28,6 +28,14 @@ module.exports = {
 			"login", [provider, params]);
 	},
 
+	showAddConnectionUI: function(providers, params, success, failure) {
+		console.log('showAddConnectionUI');
+		exec(success || function() {},
+			failure || function() {},
+			"CordovaGigya",
+			"showAddConnectionUI", [providers, params]);
+	},
+
 	loginUserWithPassword: function(params, success, failure) {
 		console.log('loginUserWithPassword');
 		exec(success || function() {},
