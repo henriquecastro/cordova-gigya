@@ -19,6 +19,7 @@ import com.gigya.socialize.android.event.GSLoginUIListener;
 public class CordovaGigya extends CordovaPlugin {
 
     private static final String TAG = "CordovaGigya";
+    private GSSession currentSession = null;
 
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         
@@ -138,7 +139,12 @@ public class CordovaGigya extends CordovaPlugin {
         } else if ("getSession".equals(action)) {
 
             GSSession session = GSAPI.getInstance().getSession();
-            callbackContext.success(session.toString());
+            if(session != null) {
+                callbackContext.success(session.toString());
+            } else {
+                callbackContext.success();
+            }
+            
 
             return true;
         } else if("loginUserWithPassword".equals(action)) {
@@ -162,16 +168,20 @@ public class CordovaGigya extends CordovaPlugin {
                     
                     if (response.getErrorCode() == 0) {
                         try {
+                            
                             JSONObject sessionInfo = data.getJSONObject("sessionInfo");
                             String sessionToken = sessionInfo.getString("sessionToken");
-                            String sessionSecret = sessionInfo.getString("sessionSecret");                        
-                            GSSession session = new GSSession(sessionToken, sessionSecret);
-                            GSAPI.getInstance().setSession(session);
+                            String sessionSecret = sessionInfo.getString("sessionSecret");
+                            currentSession = new GSSession(sessionToken, sessionSecret);
+                            if(currentSession != null) {
+                                GSAPI.getInstance().setSession(currentSession);
+                            }
 
                         } catch (JSONException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
+                        
                         callbackContext.success(data);
                     } else {
                         callbackContext.error(data);
