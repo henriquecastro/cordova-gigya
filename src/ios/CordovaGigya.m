@@ -182,6 +182,45 @@
 
 }
 
+- (void)getCurrentUser:(CDVInvokedUrlCommand*)command
+{
+
+    if ([[Gigya session] isValid]) {
+
+        GSRequest* request;
+
+        if([command.arguments objectAtIndex:0] != [NSNull null]){
+            NSDictionary* requestParams = [command.arguments objectAtIndex:0];
+            request = [GSRequest requestForMethod:@"socialize.getUserInfo" parameters:requestParams];
+        }
+        else{
+            request = [GSRequest requestForMethod:@"socialize.getUserInfo"];
+        }
+
+        [request sendWithResponseHandler:^(GSResponse *response, NSError *error) {
+            CDVPluginResult* pluginResult = nil;
+            
+            NSString* responseString = [response JSONString];
+            NSData* responseData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+
+            if (!error) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:responseDictionary];
+            }
+            else {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:responseDictionary];
+            }
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }
+    else {
+        NSLog(@"User is not logged in");
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"User is not logged in"];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+
+}
+
 - (void)sendRequest:(CDVInvokedUrlCommand*)command
 {
     NSString* requestMethod = [command.arguments objectAtIndex:0];

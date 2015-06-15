@@ -60,6 +60,14 @@ module.exports = {
 			"getSession", []);
 	},
 
+	getCurrentUser: function(params, success, failure) {
+		console.log('getCurrentUser');
+		exec(success || function() {},
+			failure || function() {},
+			"CordovaGigya",
+			"getCurrentUser", [params]);
+	},
+
 
 	sendRequest: function(method, params, success, failure) {
 		console.log('sendRequest');
