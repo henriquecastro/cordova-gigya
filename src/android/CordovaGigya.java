@@ -19,7 +19,6 @@ import com.gigya.socialize.android.event.GSLoginUIListener;
 public class CordovaGigya extends CordovaPlugin {
 
     private static final String TAG = "CordovaGigya";
-    private GSSession currentSession = null;
 
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         
@@ -172,7 +171,7 @@ public class CordovaGigya extends CordovaPlugin {
                             JSONObject sessionInfo = data.getJSONObject("sessionInfo");
                             String sessionToken = sessionInfo.getString("sessionToken");
                             String sessionSecret = sessionInfo.getString("sessionSecret");
-                            currentSession = new GSSession(sessionToken, sessionSecret);
+                            GSSession currentSession = new GSSession(sessionToken, sessionSecret);
                             if(currentSession != null) {
                                 GSAPI.getInstance().setSession(currentSession);
                             }
@@ -191,6 +190,69 @@ public class CordovaGigya extends CordovaPlugin {
 
             return true;
 
+        } 
+        else if("getCurrentUser".equals(action)) {
+            JSONObject paramsJSON = args.optJSONObject(0);
+
+            GSObject params = null;
+
+            if(paramsJSON != null){
+                try {
+                    params = new GSObject(paramsJSON.toString());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+            GSAPI.getInstance().sendRequest("socialize.getUserInfo", params, new GSResponseListener() {
+                @Override
+                public void onGSResponse(String method, GSResponse response, Object context) {
+                    JSONObject data = getData(response);
+                    
+                    if (response.getErrorCode() == 0) {                        
+                        callbackContext.success(data);
+                    } else {
+                        callbackContext.error(data);
+                    }
+                }
+            }, null);
+
+            return true;
+        }
+        else if("addConnectionToProvider".equals(action)) {
+            
+            String provider = args.optString(0);
+
+            JSONObject paramsJSON = args.optJSONObject(1);
+
+            paramsJSON.put("provider", provider);
+
+            GSObject params = null;
+
+            if(paramsJSON != null){
+                try {
+                    params = new GSObject(paramsJSON.toString());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+            GSAPI.getInstance().addConnection(params, new GSResponseListener() {
+                @Override
+                public void onGSResponse(String method, GSResponse response, Object context) {
+                    JSONObject data = getData(response);
+
+                    if (response.getErrorCode() == 0) {                        
+                        callbackContext.success(data);
+                    } else {
+                        callbackContext.error(data);
+                    }
+                }
+            }, null);
+
+            return true;
         }
         else if ("sendRequest".equals(action)){
 
