@@ -174,8 +174,8 @@
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:session.token];
     }
     else{
-        NSLog(@"Session error: no valid session");
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        NSLog(@"Session: no valid session");
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@""];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -252,6 +252,39 @@
         }
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
+}
+
+- (void)requestFacebookPublishPermissions:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"requestFacebookPublishPermissions ");
+
+    NSString* permissions = [command.arguments objectAtIndex:0];
+
+    [Gigya requestNewFacebookPublishPermissions:permissions
+           responseHandler:^(BOOL granted, NSError *error, NSArray *declinedPermissions) {
+            
+            CDVPluginResult* pluginResult = nil;
+            NSLog(granted ? @"Yes" : @"No");
+
+            if(!granted) {
+                NSLog(@"requestFacebookPublishPermissions error");
+                if(error) {
+                    NSLog(@"Error: %@", error);
+                    NSDictionary* userInfo = [error userInfo];
+                    NSDictionary* data = @{
+                        @"errorCode": [NSNumber numberWithInteger:error.code],
+                        @"errorMessage": [NSString stringWithString:userInfo[@"NSLocalizedDescription"]]
+                    };
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:data];
+                }
+            } else {
+                NSLog(@"requestFacebookPublishPermissions success");
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:granted];
+            }
+
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
+         }];
 }
 
 - (void)addConnectionToProvider:(CDVInvokedUrlCommand*)command

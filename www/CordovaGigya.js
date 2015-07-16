@@ -68,6 +68,14 @@ module.exports = {
 			"getCurrentUser", [params]);
 	},
 
+	requestFacebookPublishPermissions: function(params, success, failure) {
+		console.log('requestFacebookPublishPermissions');
+		exec(success || function() {},
+			failure || function() {},
+			"CordovaGigya",
+			"requestFacebookPublishPermissions", [params]);
+	},
+
 
 	sendRequest: function(method, params, success, failure) {
 		console.log('sendRequest');
