@@ -30,6 +30,7 @@
       <uses-permission android:name="android.permission.INTERNET" />
       <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
       <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+      <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/*/application">
@@ -49,12 +50,11 @@
             <data android:scheme="$PACKAGE_NAME" android:host="gsapi" />
         </intent-filter>
       </activity>
-      <activity android:name="com.facebook.LoginActivity"/>
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     </config-file>
 
     <source-file src="src/android/CordovaGigya.java" target-dir="src/us/platan/gigya" />
-    <source-file src="src/android/gigya-sdk-3.1.2.jar" target-dir="libs" />
+    <source-file src="src/android/gigya-sdk-3.2.1.jar" target-dir="libs" />
 
   </platform>
 
