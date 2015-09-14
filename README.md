@@ -8,16 +8,8 @@ Project uses mobile native Gigya SDK for iOS and Androidplat to utilize basic op
 ## Prerequisites
 
 ### iOS
-It's mandatory to use the native Facebook integration, for that we need to use the FacebookSDK.
 
-Download the latest iOS [FacebookSDK](https://developers.facebook.com/docs/ios/), and follow the [getting started guideline](https://developers.facebook.com/docs/ios/getting-started/). 
-
-Copy the facebook framework to your project folder
-```shell
-cd my_project
-cp -R ~/Documents/FacebookSDK/FacebookSDK.framework . 
-# This is the default location
-```
+Cordova Gigya requires the latest 3.* release of the [FacebookSDK](https://developers.facebook.com/docs/ios/). This version is included in this repo (`src/ios/FacebookSDK.framework`) and will be automatically linked to the XCode Project.
 
 ### Android
 It's mandatory to use the native Facebook integration, for that we need to use the FacebookSDK.

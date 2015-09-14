@@ -101,7 +101,7 @@
 
     <source-file src="src/ios/CordovaGigya.m" />
     <framework src="src/ios/GigyaSDK.framework" custom="true"/>
-    <framework src="../../FacebookSDK.framework" custom="true"/>
+    <framework src="src/ios/FacebookSDK.framework" custom="true"/>
   </platform>
 
 </plugin>
