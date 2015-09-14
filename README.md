@@ -1,17 +1,16 @@
 Cordova Gigya
 ================
 
-[Cordova](http://cordova.apache.org/) plugin that handles Gigya integration for mobile (iOS and Android) apps.
-
-Project uses mobile native Gigya SDK for iOS and Androidplat to utilize basic operations for a mobile app that uses Cordova. 
+[Cordova](http://cordova.apache.org/) plugin that handles Gigya integration for mobile (iOS and Android) apps. Uses the native Gigya SDK and native Facebook SDK (latest 3.x release, 4.x is not supported).
 
 ## Prerequisites
 
 ### iOS
 
-Cordova Gigya requires the latest 3.* release of the [FacebookSDK](https://developers.facebook.com/docs/ios/). This version is included in this repo (`src/ios/FacebookSDK.framework`) and will be automatically linked to the XCode Project.
+Cordova Gigya uses the latest 3.x release of the [FacebookSDK](https://developers.facebook.com/docs/ios/download). This version is included in this repo (`src/ios/FacebookSDK.framework`) and will be automatically linked to the XCode Project.
 
 ### Android
+
 It's mandatory to use the native Facebook integration, for that we need to use the FacebookSDK.
 
 1. Download and extract the latest Facebook SDK for Android, available at https://developers.facebook.com/docs/android
@@ -23,12 +22,28 @@ It's mandatory to use the native Facebook integration, for that we need to use t
 For more info go to the [getting started guideline](https://developers.facebook.com/docs/android/getting-started/). 
 
 ## Installing the plugin
-To add this plugin just type:
+
+Install this plugin using `cordova plugin add`:
+
 ```
-cordova plugin add https://github.com/bramus/cordova-gigya --variable FB_APP_NAME=<facebook app name> --variable FB_APP_ID=<facebook app id>
+cordova plugin add https://github.com/bramus/cordova-gigya --variable FB_APP_NAME=<facebook app name> --variable FB_APP_ID=<facebook app id> --save
 ```
 
-## To remove this plugin type:
+The `--save` option will persist the entered `FB_APP_NAME` and `FB_APP_ID` values in `config.xml`
+
+Note that your `package.json` file won't be updated _([bug report](https://github.com/driftyco/ionic-cli/issues/359))_ and you'll have to manually update the `cordovaPlugins` section of it:
+
+```
+{
+    "locator": "https://github.com/bramus/cordova-gigya",
+    "id": "us.platan.gigya"
+}
+```
+
+## Uninstalling the plugin
+
+Uninstall this plugin using `cordova plugin remove`:
+
 ```
 cordova plugin remove us.platan.gigya
 ```
