@@ -1,4 +1,4 @@
-Changes Cordova Gigya
+Cordova Gigya
 ================
 
 [Cordova](http://cordova.apache.org/) plugin that handles Gigya integration for mobile (iOS and Android) apps.
@@ -33,7 +33,7 @@ For more info go to the [getting started guideline](https://developers.facebook.
 ## Installing the plugin
 To add this plugin just type:
 ```
-cordova plugin add https://github.com/platanus/cordova-gigya --variable FB_APP_NAME=<facebook app name> --variable FB_APP_ID=<facebook app id>
+cordova plugin add https://github.com/bramus/cordova-gigya --variable FB_APP_NAME=<facebook app name> --variable FB_APP_ID=<facebook app id>
 ```
 
 ## To remove this plugin type:
@@ -178,7 +178,7 @@ Retrieves the current session.
 ###### Example
 
 ```js
-cordova.plugins.CordovaGigya.showLoginUI(
+cordova.plugins.CordovaGigya.getSession(
     function(token){
         console.log(token);
     },
