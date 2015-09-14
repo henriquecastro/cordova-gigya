@@ -26,7 +26,7 @@ public class CordovaGigya extends CordovaPlugin {
 
         if ("initialize".equals(action)) {
 
-            GSAPI.getInstance().initialize(cordova.getActivity(), args.getString(0));
+            GSAPI.getInstance().initialize(cordova.getActivity(), args.getString(0), args.getString(1));
             callbackContext.success();
 
             return true;

@@ -4,12 +4,12 @@ var argscheck = require('cordova/argscheck'),
 
 module.exports = {
 
-	initialize: function(api_key) {
+	initialize: function(api_key, api_domain) {
 		console.log('initialize');
 		exec(null,
 			null,
 			"CordovaGigya",
-			"initialize", [api_key]);
+			"initialize", [api_key, (api_domain || "us1.gigya.com")]);
 	},
 
 	showLoginUI: function(providers, params, success, failure) {

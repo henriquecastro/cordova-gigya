@@ -49,7 +49,8 @@
 - (void)initialize:(CDVInvokedUrlCommand*)command
 {
     NSString* apiKey = [command.arguments objectAtIndex:0];
-    [Gigya initWithAPIKey:apiKey];
+    NSString* apiDomain = [command.arguments objectAtIndex:1];
+    [Gigya initWithAPIKey:apiKey APIDomain:apiDomain];
 
 }
 
