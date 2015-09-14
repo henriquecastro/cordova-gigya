@@ -205,11 +205,9 @@ cordova.plugins.CordovaGigya.getSession(
 
 ## Credits
 
-Thank you [contributors](https://github.com/platanus/cordova-gigya/graphs/contributors)!
+`cordova-gigya` was originally built by [platanus](http://platan.us). This fork is maintained by [Bramus](http://www.bram.us/)
 
-<img src="http://platan.us/gravatar_with_text.png" alt="Platanus" width="250"/>
-
-cordova-gigya is maintained by [platanus](http://platan.us).
+Thank you [contributors](https://github.com/bramus/cordova-gigya/graphs/contributors)!
 
 ## License
 
