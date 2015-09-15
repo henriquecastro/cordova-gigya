@@ -176,7 +176,7 @@
     }
     else{
         NSLog(@"Session: no valid session");
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@""];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@""];
     }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
