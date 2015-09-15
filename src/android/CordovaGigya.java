@@ -141,7 +141,7 @@ public class CordovaGigya extends CordovaPlugin {
             if(session != null) {
                 callbackContext.success(session.toString());
             } else {
-                callbackContext.error();
+                callbackContext.error(new String());
             }
             
 
