@@ -53,6 +53,7 @@
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     </config-file>
 
+    <framework src="com.facebook.android:facebook-android-sdk:3.23.1" />
     <source-file src="src/android/CordovaGigya.java" target-dir="src/us/platan/gigya" />
     <source-file src="src/android/gigya-sdk-3.2.1.jar" target-dir="libs" />
 
