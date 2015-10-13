@@ -11,7 +11,9 @@ Cordova Gigya uses the latest 3.x release of the [FacebookSDK](https://developer
 
 ### Android
 
-On Android it is mandatory to use the native Facebook integration. The Facebook SDK 4.7.0 is defined as a requirement and will automatically be installed when compiling your project.
+On Android it is mandatory ([REF](http://developers.gigya.com/display/GD/Android#Android-LoggingintheUser)) to use the native Facebook integration. The Facebook SDK 4.7.0 is defined as a requirement and will automatically be installed when compiling your project.
+
+Be sure to define [add](http://developers.gigya.com/display/GD/Android#Android-AddingFacebookNativeLogin) and [activate](http://developers.gigya.com/display/GD/Facebook#Facebook-Phase2-ConfiguringFacebook'sApplicationKeysinGigya'sWebsite) the Native Facebook Login.
 
 ## Installing the plugin
 
