@@ -11,15 +11,7 @@ Cordova Gigya uses the latest 3.x release of the [FacebookSDK](https://developer
 
 ### Android
 
-It's mandatory to use the native Facebook integration, for that we need to use the FacebookSDK.
-
-1. Download and extract the latest Facebook SDK for Android, available at https://developers.facebook.com/docs/android
-1. Import the "facebook" folder from the downloaded SDK into your Eclipse workspace.
-1. Under the project properties, navigate to the "Android" tab.
-1. In the lower part of the dialog box, click "Add" and choose the "FacebookSDK" project from the workspace.
-1. If your project already has a copy of android-support-v4.jar, remove one of the copies (either from the Facebook project or from your app's project).
-
-For more info go to the [getting started guideline](https://developers.facebook.com/docs/android/getting-started/). 
+On Android it is mandatory to use the native Facebook integration. The Facebook SDK 4.7.0 is defined as a requirement and will automatically be installed when compiling your project.
 
 ## Installing the plugin
 
