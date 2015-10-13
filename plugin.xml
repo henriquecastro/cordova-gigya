@@ -34,7 +34,7 @@
     </config-file>
 
     <config-file target="AndroidManifest.xml" parent="/*/application">
-      <activity android:label="@string/app_name" android:name="com.facebook.LoginActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+      <activity android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" android:name="com.facebook.FacebookActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
       <activity
         android:name="com.gigya.socialize.android.ui.HostActivity"
         android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -53,7 +53,7 @@
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     </config-file>
 
-    <framework src="com.facebook.android:facebook-android-sdk:3.23.1" />
+    <framework src="com.facebook.android:facebook-android-sdk:4.7.0" />
     <source-file src="src/android/CordovaGigya.java" target-dir="src/us/platan/gigya" />
     <source-file src="src/android/gigya-sdk-3.2.2.jar" target-dir="libs" />
 
