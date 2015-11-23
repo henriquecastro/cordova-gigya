@@ -35,7 +35,7 @@
     NSURL* url = [notification object];
 
     if ([url isKindOfClass:[NSURL class]]) {
-        [Gigya handleOpenURL:url sourceApplication:nil annotation:nil];
+        [Gigya handleOpenURL:url application:nil sourceApplication:nil annotation:nil];
     }
     
 }
@@ -50,7 +50,7 @@
 {
     NSString* apiKey = [command.arguments objectAtIndex:0];
     NSString* apiDomain = [command.arguments objectAtIndex:1];
-    [Gigya initWithAPIKey:apiKey APIDomain:apiDomain];
+    [Gigya initWithAPIKey:apiKey application:nil launchOptions:nil APIDomain:apiDomain];
 
 }
 
@@ -135,14 +135,24 @@
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:userDictionary];
             }
             else {
+                
                 // Handle error
                 NSLog(@"Login error: %@", error);
 
                 NSDictionary* userInfo = [error userInfo];
                 NSDictionary* data = nil;
+                NSDictionary* userDictionary = nil;
+                
+                if(user) {
+                    
+                    NSString* userString = [user JSONString];
+                    NSData* userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
+                    userDictionary = [NSJSONSerialization JSONObjectWithData:userData options:kNilOptions error:&error];
+                }
 
                 if(userInfo[@"state"] && userInfo[@"regToken"]) {
                     data = @{
+                       @"profile" : userDictionary,
                        @"state": [NSString stringWithString:userInfo[@"state"]],
                        @"regToken": [NSString stringWithString:userInfo[@"regToken"]],
                        @"errorCode": [NSNumber numberWithInteger:error.code],
@@ -155,9 +165,8 @@
                     };
                 }
 
-                
-
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:data];
+                
             }
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 

@@ -20,7 +20,7 @@ Be sure to define [add](http://developers.gigya.com/display/GD/Android#Android-A
 Install this plugin using `cordova plugin add`:
 
 ```
-cordova plugin add https://github.com/bramus/cordova-gigya --variable FB_APP_NAME=<facebook app name> --variable FB_APP_ID=<facebook app id> --save
+cordova plugin add https://github.com/henriquecastro/cordova-gigya --variable FB_APP_NAME=<facebook app name> --variable FB_APP_ID=<facebook app id> --save
 ```
 
 The `--save` option will persist the entered `FB_APP_NAME` and `FB_APP_ID` values in `config.xml`
