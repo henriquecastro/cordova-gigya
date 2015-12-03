@@ -14,11 +14,15 @@ import com.gigya.socialize.GSResponse;
 import com.gigya.socialize.GSResponseListener;
 import com.gigya.socialize.android.GSAPI;
 import com.gigya.socialize.android.GSSession;
+import com.gigya.socialize.android.GSPluginFragment;
 import com.gigya.socialize.android.event.GSLoginUIListener;
+import com.gigya.socialize.android.event.GSDialogListener;
+import com.gigya.socialize.android.event.GSPluginListener;
 
 public class CordovaGigya extends CordovaPlugin {
 
     private static final String TAG = "CordovaGigya";
+    private JSONObject responseRAAS;
 
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         
@@ -288,6 +292,76 @@ public class CordovaGigya extends CordovaPlugin {
 
             GSAPI.getInstance().logout();
             callbackContext.success();
+
+            return true;
+        }
+        //ScreenSets
+        else if("showScreenSet".equals(action)){
+
+            // Get the screenset
+            String screenSet = args.optString(0);
+
+            // options
+            JSONObject paramsJSON = args.optJSONObject(1);
+
+            // Prepare params object
+            GSObject params = null;
+
+            if(paramsJSON != null){
+                try {
+                    params = new GSObject(paramsJSON.toString());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            else {
+                params = new GSObject();
+            }
+
+            //Screenset
+            params.put("screenSet", screenSet);
+
+            GSAPI.getInstance().showPluginDialog("accounts.screenSet", params, new GSPluginListener() {
+                @Override
+                public void onLoad(GSPluginFragment gsPluginFragment, GSObject gsObject) {
+                    Log.d(TAG, "Gigya screenSet was loaded");
+                }
+
+                @Override
+                public void onError(GSPluginFragment gsPluginFragment, GSObject error) {
+                    
+                    Log.d(TAG, "Gigya screenSet had an error - " + error.toJsonString());
+                    JSONObject data = getData(error);
+                    callbackContext.error(data);
+
+                }
+
+                @Override
+                public void onEvent(GSPluginFragment gsPluginFragment, GSObject gsObject) {
+
+                    if(gsObject.getString("eventName", "").equals("afterSubmit") && (!gsObject.getString("response", "").isEmpty() || !gsObject.getString("data", "").isEmpty())) {
+                        responseRAAS = getData(gsObject);
+                    }
+                    else if(gsObject.getString("eventName", "").equals("hide")) {
+
+                        //Finish?
+                        if(gsObject.getString("reason", "").equals("finished") && responseRAAS.length() > 0) {
+                            callbackContext.success(responseRAAS);
+                        }
+                        else {
+                            JSONObject data = getData(gsObject);
+                            callbackContext.error(data);
+                        }
+                        
+                    }
+                }
+            }, new GSDialogListener() {
+                @Override
+                public void onDismiss(boolean b, GSObject gsObject) {
+
+                }
+            });
 
             return true;
         }

@@ -20,6 +20,14 @@ module.exports = {
 			"showLoginUI", [providers, params]);
 	},
 
+	showScreenSet: function(screenset, params, success, failure) {
+		console.log('showScreenSet');
+		exec(success || function() {},
+			failure || function() {},
+			"CordovaGigya",
+			"showScreenSet", [screenset, params]);
+	},
+
 	login: function(provider, params, success, failure) {
 		console.log('login');
 		exec(success || function() {},
