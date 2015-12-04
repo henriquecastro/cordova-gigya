@@ -29,7 +29,7 @@ Note that your `package.json` file won't be updated _([bug report](https://githu
 
 ```
 {
-    "locator": "https://github.com/bramus/cordova-gigya",
+    "locator": "https://github.com/henriquecastro/cordova-gigya",
     "id": "us.platan.gigya"
 }
 ```
